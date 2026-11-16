@@ -1,0 +1,13 @@
+# Servidor web
+fastapi==0.163.1
+uvicorn[standard]==0.54.0
+
+# Cliente HTTP para consultar las APIs de entradas y eventos
+httpx==0.28.1
+
+# Imagen del ticket (PNG) y código de barras Code 128
+pillow==13.0.0
+python-barcode==0.16.1
+
+# Lectura de .env en local (en Railway se usan las variables del servicio)
+python-dotenv==1.2.4

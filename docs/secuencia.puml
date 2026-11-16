@@ -1,0 +1,34 @@
+@startuml secuencia_ticket
+title EventPass - Generación de ticket (Equipo 7)
+
+actor "Web / Agente de impresión\n(Equipo 6 / Equipo 8)" as Cliente
+participant "Gateway" as GW
+participant "Servicio de tickets\n(Equipo 7)" as TK
+participant "API de entradas\n(Equipo 5)" as EN
+participant "API de eventos" as EV
+
+Cliente -> GW : GET /api/tickets/{codigo}
+GW -> TK : GET /tickets/{codigo}
+activate TK
+
+TK -> EN : GET {ENTRADAS_URL}/entradas/{codigo}
+
+alt entrada existente
+    EN --> TK : 200 {codigo, evento_id, estado}
+
+    TK -> EV : GET {EVENTOS_URL}/eventos/{evento_id}
+    EV --> TK : 200 {id, nombre, fecha, capacidad, disponibles}
+
+    TK -> TK : Generar PNG 384 px\n(nombre, fecha, código, Code 128)
+    TK --> GW : 200 Content-Type: image/png
+    GW --> Cliente : 200 image/png
+
+else entrada inexistente
+    EN --> TK : 404
+    TK --> GW : 404 {"error":"ENTRADA_NO_EXISTE",\n"mensaje":"Entrada no encontrada"}
+    note right of TK : No se consulta la API de eventos\nni se genera imagen
+    GW --> Cliente : 404 JSON
+end
+
+deactivate TK
+@enduml

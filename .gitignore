@@ -1,0 +1,28 @@
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Variables de entorno reales (subir solo .env.example)
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Tickets generados al probar en local
+tickets_generados/
+ticket-*.png
+
+# Editores y sistema operativo
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
